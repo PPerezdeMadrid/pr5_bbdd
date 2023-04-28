@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this template
+-->
+
+
+
+<root>
+    <sakila>
+        <predefinidas>
+            SELECT MAX(length), MIN(length) FROM film;
+            SELECT COUNT(DISTINCT first_name, last_name) FROM actor;
+        </predefinidas>
+        
+        <simples>
+            SELECT * FROM actor;
+            SELECT * FROM customer WHERE city = 'London';
+        </simples>
+        
+        <complejas>
+            SELECT film.title, actor.first_name, actor.last_name
+                FROM film
+                INNER JOIN film_actor ON film.film_id = film_actor.film_id
+                INNER JOIN actor ON film_actor.actor_id = actor.actor_id
+                INNER JOIN inventory ON film.film_id = inventory.film_id
+                INNER JOIN rental ON inventory.inventory_id = rental.inventory_id
+                GROUP BY film.film_id
+                HAVING COUNT(rental.rental_id) > 5;
+
+            SELECT customer.first_name, customer.last_name, COUNT(rental.rental_id)
+                FROM customer
+                INNER JOIN rental ON customer.customer_id = rental.customer_id
+                GROUP BY customer.customer_id;
+   
+        </complejas>
+        
+    </sakila>
+    
+    
+    <world>
+        <predefinidas>
+            SELECT SUM(surface_area) FROM country;
+            SELECT MAX(population/surface_area), MIN(population/surface_area) FROM country WHERE continent = 'Asia';
+
+        </predefinidas>
+        
+        <simples>
+            SELECT * FROM country;
+            SELECT * FROM city WHERE name LIKE 'S%';
+        </simples>
+            SELECT country.name, language.language
+                FROM country
+                INNER JOIN country_language ON country.code = country_language.country_code
+                INNER JOIN language ON country_language.language = language.language
+                WHERE country_language.is_official = 'T'
+                GROUP BY country.code
+                HAVING COUNT(country_language.language) > 3;
+                
+            SELECT country.name, currency.name
+                FROM country
+                INNER JOIN city ON country.capital = city.id
+                INNER JOIN country_currency ON country.code = country_currency.country_code
+                INNER JOIN currency ON country_currency.currency_code = currency.code
+                WHERE currency.code != city.currency_code;
+
+        <complejas>
+            
+        </complejas>
+    </world>
+</root>
+
