@@ -140,34 +140,9 @@ public class Interfaz extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void imprimirGlobal(){
-        imprimirSakila();
-        imprimirWorld();
-    }
-    private void imprimirSakila(){
-        CargarFichero miConexion = new CargarFichero();
-        
-         long tiempoConsultaPredefinidaSakila = miConexion.medirTiempoConsulta(" SELECT MAX(length), MIN(length) FROM film;", usuario1, password1);
-         String textoS1 = String.valueOf(tiempoConsultaPredefinidaSakila);
-        jTextArea4.setText(textoS1);
-        
-        long tiempoConsultaSimpleSakila = miConexion.medirTiempoConsulta("SELECT * FROM actor;SELECT * FROM customer WHERE city = 'London';", usuario1, password1);
-        String textoS2 = String.valueOf(tiempoConsultaSimpleSakila);
-        jTextArea3.setText(textoS2);
-        
-        long tiempoConsultaComplejaSakila = miConexion.medirTiempoConsulta("SELECT film.title, actor.first_name, actor.last_nameFROM filmINNER JOIN film_actor ON film.film_id = film_actor.film_idINNER JOIN actor ON film_actor.actor_id = actor.actor_idINNER JOIN inventory ON film.film_id = inventory.film_idINNER JOIN rental ON inventory.inventory_id = rental.inventory_idGROUP BY film.film_idHAVING COUNT(rental.rental_id) > 5;", usuario1, password1);
-         String textoS3 = String.valueOf(tiempoConsultaComplejaSakila);
-        jTextArea2.setText(textoS3);
-        
-    }
     
-    private void imprimirWorld(){
-        CrearBD miConexion = new CrearBD();
-        //CÓDIGO A EJECUTAR
-        
-    }
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        imprimirGlobal();
+        
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {                                      

@@ -12,20 +12,13 @@ public class CrearBD {
     public String crearDB(String usuario2, String password2) {
         usuario = usuario2;
         password = password2;
-        String consulta0 = "CREATE DATABASE pr5;\n" +
+        String consulta = "CREATE DATABASE pr5;\n" +
             "USE pr5";
-        String consulta = "CREATE TABLE artists (\n" +
-            "name VARCHAR(255),\n" +
-            "  id VARCHAR(255),\n" +
-            "  popularity INT,\n" +
-            "  followers INT\n" +
-            ");";
 
         try {
 
             conexion = DriverManager.getConnection(url, usuario, password);
             statement = conexion.createStatement();
-            statement.executeQuery(consulta0);
             statement.executeQuery(consulta);
             respuesta = "La Base de Datos pr5 ha sido creada";
             System.out.println(respuesta);

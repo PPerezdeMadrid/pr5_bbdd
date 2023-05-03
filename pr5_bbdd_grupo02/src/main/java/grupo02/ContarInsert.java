@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ContarInsert {
     public int contarInsert(){
-        String rutaArchivo = "artists_tabulado.txt";
+        String rutaArchivo = "albums_tabulado.txt";
         AtomicInteger contador = new AtomicInteger(0); //Variable atómica
         
         try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {

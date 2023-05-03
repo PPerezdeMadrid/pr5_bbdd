@@ -3,7 +3,7 @@ package grupo02;
 import java.sql.*;
 
 public class CargarFichero {
-    String url = "jdbc:mysql://localhost:3306/sakila"; // URL de la base de datos
+    String url = "jdbc:mysql://localhost:3306/sakila"; // CAMBIAR URL!!!
     String usuario; // Usuario de la base de datos
     String password; // Contraseña de la base de datos
     Statement statement;
@@ -20,9 +20,9 @@ public class CargarFichero {
         try {
             conexion = DriverManager.getConnection(url, usuario, password);
             statement = conexion.createStatement();
-            long inicio = System.currentTimeMillis();
+            long inicio = System.nanoTime();
             statement.executeQuery(consulta);
-            long fin = System.currentTimeMillis();
+            long fin = System.nanoTime();
             tiempo = fin - inicio;
             
 

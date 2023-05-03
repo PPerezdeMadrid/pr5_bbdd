@@ -5,16 +5,17 @@
 package grupo02;
 
 /**
- *
+ * cronometro(1) --> empieza a contar
+ * cronometro(0)--> STOP
  * @author ppere
  */
-public class tiempo {
+public class Tiempo {
     long tiempoActual;
     long inicio;
     
-    public long cronometro(int accion){ //accion, si pulsa el boton start devuelve 1 y empieza si pulsa stop devuelve 0
+    public long cronometro(int accion){ 
         inicio = System.currentTimeMillis();
-        while (accion == 0) {
+        while (accion == 1) {
             tiempoActual = System.currentTimeMillis() - inicio;
             System.out.println("Tiempo transcurrido: " + tiempoActual + " ms");
             
