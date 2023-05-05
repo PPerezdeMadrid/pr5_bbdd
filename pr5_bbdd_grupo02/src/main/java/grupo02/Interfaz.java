@@ -9,7 +9,7 @@ package grupo02;
  * @author ppere
  */
 public class Interfaz extends javax.swing.JFrame {
-
+S
     /**
      * Creates new form Interfaz
      */
