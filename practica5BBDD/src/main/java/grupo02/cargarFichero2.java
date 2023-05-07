@@ -18,7 +18,7 @@ import java.util.Scanner;
  * @author ppere
  */
 public class cargarFichero2 {
-     String url = "jdbc:mysql://localhost:3306/r5p";  
+     String url = "jdbc:mysql://localhost:3306/pr5";  
     String usuario; 
     String password; 
     Statement statement;
@@ -53,7 +53,7 @@ public class cargarFichero2 {
 
             conexion = DriverManager.getConnection(url, usuario, password);
             statement = conexion.createStatement();
-            statement.executeQuery(obtenerInsert());
+            //statement.executeQuery(obtenerInsert());
             contador =+1 ;
             
 

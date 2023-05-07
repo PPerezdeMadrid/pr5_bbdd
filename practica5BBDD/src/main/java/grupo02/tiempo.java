@@ -9,7 +9,7 @@ package grupo02;
  * cronometro(0)--> STOP
  * @author ppere
  */
-public class Tiempo {
+public class tiempo {
     long tiempoActual;
     long inicio;
     

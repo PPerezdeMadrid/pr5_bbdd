@@ -18,7 +18,7 @@ import java.util.Scanner;
  * @author ppere
  */
 public class CargarDatos {
-    String url = "jdbc:mysql://localhost:3306/r5p";  
+    String url = "jdbc:mysql://localhost:3306/pr5";  
     String usuario; 
     String password; 
     Statement statement;
