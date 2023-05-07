@@ -1,5 +1,6 @@
 package grupo02;
 import java.sql.*;
+
 /**
  * crearBD(usuario, password);
  * addConsultas(String);
@@ -37,14 +38,9 @@ public class GestorBD {
     }
     
     private void addConsultas(String consulta){
-        try {
-            conexion = DriverManager.getConnection(url, usuario, password);
-            statement = conexion.createStatement();
-            statement.executeQuery(consulta);
-
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
+        CargarDatos data = new CargarDatos();
+        data.obtenerInsert(); //obtiene secuencia Insert
+        data.medirTiempoCarga(); //mide tiempo de carga
     }
     
     public void cerrarConexion() {
