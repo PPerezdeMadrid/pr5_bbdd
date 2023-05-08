@@ -27,6 +27,7 @@ public class GestorBD {
             conexion = DriverManager.getConnection(url, usuario, password);
             statement = conexion.createStatement();
             statement.executeQuery(consulta);
+            
             respuesta = "La Base de Datos pr5 ha sido creada";
             System.out.println(respuesta);
 
@@ -37,10 +38,10 @@ public class GestorBD {
         return respuesta;
     }
     
-    private void addConsultas(String consulta){
+    private void addConsultas(/*String consulta,*/ String usuario, String contraseña){
         CargarDatos data = new CargarDatos();
         data.obtenerInsert(); //obtiene secuencia Insert
-        data.medirTiempoCarga(); //mide tiempo de carga
+        data.medirTiempoCarga(usuario, contraseña); //mide tiempo de carga
     }
     public boolean logIn(String nombre, String contraseña){     //si inicia sesion devuelve true, sino, false
         usuario = nombre;
