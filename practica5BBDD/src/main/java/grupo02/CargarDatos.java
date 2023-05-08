@@ -57,7 +57,7 @@ public class CargarDatos {
     ** consultas.forEach(consulta -> cargarConsulta(consulta));
     ** CargarConsulta(consulta), devuelve n si se ha ejecutado correctamente
     */
-    private void cargarConsulta(String consulta){
+    public int cargarConsulta(String consulta){
          try {
            conexion = DriverManager.getConnection(url, usuario, password);
            statement = conexion.createStatement();
@@ -72,6 +72,7 @@ public class CargarDatos {
         } catch (SQLException e) {
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
+        return contador;
     } 
     //Problemática: Como imprimir a tiempo real el contador
    
