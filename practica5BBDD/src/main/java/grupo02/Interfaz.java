@@ -20,8 +20,7 @@ public class Interfaz extends javax.swing.JFrame {
     String usuario ="";
     String contraseña= "";
     boolean logIn;
-    CargarFichero conector = new CargarFichero();
-    cargarFichero2 conector2 = new cargarFichero2();
+    GestorBD gestor = new GestorBD();
     public Interfaz() {
         initComponents();
         
@@ -254,17 +253,17 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_ContrasennaLavelActionPerformed
 
     private void tabButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tabButtonActionPerformed
-        String tiempo = "";
+        /*String tiempo = "";
         try{
             tiempo= Long.toString(conector.cargarFicheroTab(usuario, contraseña));
         }catch(SQLException e){tiempo="error en la carga";}
-        jTextArea2.setText(tiempo);
+        jTextArea2.setText(tiempo);*/
     }//GEN-LAST:event_tabButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
       usuario=UsuarioLavel.getText();
       contraseña=ContrasennaLavel.getText();
-      if(conector.logIn(usuario, contraseña)== true){
+      if(gestor.logIn(usuario, contraseña)== true){
           logIn=true;
           jPanel3.setBackground(Color.green);
       }else{

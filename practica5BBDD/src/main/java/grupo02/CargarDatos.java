@@ -54,8 +54,8 @@ public class CargarDatos {
     *Este método carga UNA cosulta
     *Si la carga correctamente --> +1 al contador
     *Va devolviendo el contador (para posteriormente imprimirlo por pantalla)
-    ** CargarConsulta(consulta), devuelve n si se ha ejecutado correctamente
     ** consultas.forEach(consulta -> cargarConsulta(consulta));
+    ** CargarConsulta(consulta), devuelve n si se ha ejecutado correctamente
     */
     private void cargarConsulta(String consulta){
          try {
@@ -84,4 +84,5 @@ public class CargarDatos {
      
      return tiempo; 
     }
+    
    }

@@ -42,6 +42,19 @@ public class GestorBD {
         data.obtenerInsert(); //obtiene secuencia Insert
         data.medirTiempoCarga(); //mide tiempo de carga
     }
+    public boolean logIn(String nombre, String contraseña){     //si inicia sesion devuelve true, sino, false
+        usuario = nombre;
+        password = contraseña;
+        try {
+            conexion = DriverManager.getConnection(url, usuario, password);
+            cerrarConexion();
+            return true;
+
+        } catch (SQLException e) {
+            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
+            return false;
+        }
+    }
     
     public void cerrarConexion() {
         try {
