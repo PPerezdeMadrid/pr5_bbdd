@@ -9,7 +9,7 @@ import java.sql.*;
  */
 
 public class GestorBD {
-    String url = "jdbc:mysql://localhost:3306/world";  
+    String url = "jdbc:mysql://localhost:3306/world"; //cambiar  
     String usuario; 
     String password; 
     Statement statement;
@@ -19,7 +19,7 @@ public class GestorBD {
     public String crearDB(String usuario2, String password2) {
         usuario = usuario2;
         password = password2;
-        String consulta = "CREATE DATABASE pr5;\n" +
+        String consulta = "CREATE IF NOT EXIST DATABASE pr5;\n" +
             "USE pr5";
 
         try {
@@ -43,6 +43,7 @@ public class GestorBD {
         data.obtenerInsert(); //obtiene secuencia Insert
         data.medirTiempoCarga(usuario, contraseña); //mide tiempo de carga
     }
+    
     public boolean logIn(String nombre, String contraseña){     //si inicia sesion devuelve true, sino, false
         usuario = nombre;
         password = contraseña;
