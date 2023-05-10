@@ -4,14 +4,19 @@
  */
 package grupo02;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,26 +39,40 @@ public class CargarDatos {
      */
     public int obtenerInsert() {
         try {
-            File archivo = new File("C:\\Users\\golro\\Documents\\Universidad\\año 2\\segundo cuatrimestre\\Bases de datos II\\practica 5\\albums_tabulado.txt");
-            Scanner scanner = new Scanner(archivo);
+            
+            int n=0;
+            String linea;
             String[] datos;
-            while (scanner.hasNextLine()) {
-                datos = scanner.nextLine().split("\t");
-                if (datos.length >= 6) {
-                    String name = datos[0].replaceAll("\"", "'").replaceAll("'","`");
-                    String name_1 = datos[1].replaceAll("\"", "'").replaceAll("'","`");
-                    String name_2 = datos[2].replaceAll("\"", "'").replaceAll("'","`");
-                    String name_3 = datos[3].replaceAll("\"", "'").replaceAll("'","`");
-                    String name_4 = datos[4].replaceAll("\"", "'").replaceAll("'","`");
-                    String name_5 = datos[5].replaceAll("\"", "'").replaceAll("'","`");
-                    consultas.add("INSERT INTO ALBUMS (name, id, album_group, album_type, release_date, popularity) VALUES ('" + name + "', '" + name_1 + "', '" + name_2 + "', '" + name_3 + "'," + name_4 + "," + name_5 + ");\n");
-
-                }
+             
+            File archivo = new File("C:\\Users\\golro\\Documents\\Universidad\\año 2\\segundo cuatrimestre\\Bases de datos II\\practica 5\\albums_tabulado.txt");
+            
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(archivo));
+            
+            while ((linea = bufferedReader.readLine()) != null) {
+                System.out.println("cargando inserts" + n);
+                datos = linea.split("\t");
+            
+                 if (datos.length >= 6) {
+                String name = datos[0].replaceAll("\"", "'").replaceAll("'", "`");
+                String name_1 = datos[1].replaceAll("\"", "'").replaceAll("'", "`");
+                String name_2 = datos[2].replaceAll("\"", "'").replaceAll("'", "`");
+                String name_3 = datos[3].replaceAll("\"", "'").replaceAll("'", "`");
+                String name_4 = datos[4].replaceAll("\"", "'").replaceAll("'", "`");
+                String name_5 = datos[5].replaceAll("\"", "'").replaceAll("'", "`");
+                
+                String consulta = "INSERT INTO ALBUMS (name, id, album_group, album_type, release_date, popularity) VALUES ('" + name + "', '" + name_1 + "', '" + name_2 + "', '" + name_3 + "'," + name_4 + "," + name_5 + ");\n";
+                
+                consultas.add(consulta);
+                n++;
             }
-
-            scanner.close();
+        }
+            
+           bufferedReader.close();
+           
         } catch (FileNotFoundException e) {
             System.out.println("No se encontró el archivo");
+        } catch (IOException ex) {
+            Logger.getLogger(CargarDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
     }
@@ -65,25 +84,21 @@ public class CargarDatos {
     ** consultas.forEach(consulta -> cargarConsulta(consulta));
     ** CargarConsulta(consulta), devuelve n si se ha ejecutado correctamente
      */
-    public int cargarConsulta(String consulta, String usuario, String contraseña) {
+    public void cargarConsulta(String consulta, String usuario, String contraseña) {
         try {
             conexion = DriverManager.getConnection(url, usuario, contraseña);
             statement = conexion.createStatement();
-            //obtenerInsert();
             System.out.println("1");
-            System.out.println(consultas);
             int resultado = 0;
             try {
                 resultado = statement.executeUpdate(consulta);
-                System.out.println(resultado);
             } catch (SQLException e) {
                 System.err.println("Error en una sentencia: " + e.getMessage());
             }
 
-            System.out.println("2");
             if (resultado > 0) {
-                contador++;
-                System.out.println("Contador: " + contador + "\n");
+                contador=contador+1;
+                System.out.println("Inserciones realizadas: " + contador + "\n");
             } else {
                 System.out.println("Error al cargar una consulta de inserción \n");
             }
@@ -91,15 +106,14 @@ public class CargarDatos {
         } catch (SQLException e) {
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
-       // System.out.println(contador);
          try {
             if (conexion != null) {
                 conexion.close();
+                System.out.println("EX");
             }
         } catch (SQLException e) {
             System.err.println("Error al cerrar la conexión: " + e.getMessage());
         }
-        return contador;
                 
     }
     //Problemática: Como imprimir a tiempo real el contador
@@ -116,7 +130,7 @@ public class CargarDatos {
     }
 
     public int contador(String usuario, String contraseña) {
-
+        
         obtenerInsert();
         int i = 0;
         while (i < consultas.size()) {
