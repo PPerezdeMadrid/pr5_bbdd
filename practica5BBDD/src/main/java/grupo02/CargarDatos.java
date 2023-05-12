@@ -44,7 +44,7 @@ public class CargarDatos {
             String linea;
             String[] datos;
              
-            File archivo = new File("C:\\Users\\golro\\Documents\\Universidad\\año 2\\segundo cuatrimestre\\Bases de datos II\\practica 5\\albums_tabulado.txt");
+            File archivo = new File("albums_tabulado700.txt");
             
             BufferedReader bufferedReader = new BufferedReader(new FileReader(archivo));
             
@@ -63,7 +63,8 @@ public class CargarDatos {
                 String consulta = "INSERT INTO ALBUMS (name, id, album_group, album_type, release_date, popularity) VALUES ('" + name + "', '" + name_1 + "', '" + name_2 + "', '" + name_3 + "'," + name_4 + "," + name_5 + ");\n";
                 
                 consultas.add(consulta);
-                n++;
+                n++; //n --> NUMERO DE CONSULTAS AÑADIDAS EN EL ARRAY
+                    
             }
         }
             
@@ -139,6 +140,10 @@ public class CargarDatos {
         }
 
         return contador;
+    }
+    
+    public int numeroInsert(){
+        return consultas.size();
     }
 
 }
