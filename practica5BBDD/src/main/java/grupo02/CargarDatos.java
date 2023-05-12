@@ -14,7 +14,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +30,7 @@ public class CargarDatos {
     Connection conexion;
     String respuesta;
     int contador;
-    ArrayList<String> consultas = new ArrayList<>();
+    ArrayList<String> consultas = new ArrayList<>(); 
 
     /*
     *Este método obtiene del archivo tabulado un arraylist de "INSERT..."
@@ -107,6 +106,7 @@ public class CargarDatos {
         } catch (SQLException e) {
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
+        /**
          try {
             if (conexion != null) {
                 conexion.close();
@@ -115,6 +115,7 @@ public class CargarDatos {
         } catch (SQLException e) {
             System.err.println("Error al cerrar la conexión: " + e.getMessage());
         }
+        */
                 
     }
     //Problemática: Como imprimir a tiempo real el contador
@@ -123,9 +124,10 @@ public class CargarDatos {
         long tiempoInicio = System.nanoTime();
         obtenerInsert();
         consultas.forEach(consulta -> cargarConsulta(consulta, usuario, contraseña)); //ejec cada consulta y devuelve
-        consultas.forEach(consulta -> System.out.println(consulta));
+        //consultas.forEach(consulta -> System.out.println(consulta));
         long tiempoFin = System.nanoTime();
         long tiempo = tiempoFin - tiempoInicio;
+        
 
         return tiempo;
     }
@@ -141,9 +143,6 @@ public class CargarDatos {
 
         return contador;
     }
-    
-    public int numeroInsert(){
-        return consultas.size();
-    }
 
+    
 }
