@@ -1,10 +1,12 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package grupo02;
 import java.sql.*;
 
 /**
- * crearBD(usuario, password);
- * addConsultas(String);
- * cronometro(0)--> STOP
+ *
  * @author ppere
  */
 
@@ -16,35 +18,10 @@ public class GestorBD {
     Connection conexion;
     String respuesta;
     
-    public String crearDB(String usuario2, String password2) {
-        usuario = usuario2;
-        password = password2;
-        String consulta = "CREATE IF NOT EXIST DATABASE pr5;\n" +
-            "USE pr5";
-
-        try {
-
-            conexion = DriverManager.getConnection(url, usuario, password);
-            statement = conexion.createStatement();
-            statement.executeQuery(consulta);
-            
-            respuesta = "La Base de Datos pr5 ha sido creada";
-            System.out.println(respuesta);
-
-        } catch (SQLException e) {
-            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
-        }
-
-        return respuesta;
-    }
-    
-    private void addConsultas(/*String consulta,*/ String usuario, String contraseña){
-        CargarDatos data = new CargarDatos();
-        data.obtenerInsert(); //obtiene secuencia Insert
-        data.medirTiempoCarga(usuario, contraseña); //mide tiempo de carga
-    }
-    
-    public boolean logIn(String nombre, String contraseña){     //si inicia sesion devuelve true, sino, false
+    /*
+    * Método que devuelve 'true' si se inicia sesión correctamente
+    */
+    public boolean logIn(String nombre, String contraseña){     
         usuario = nombre;
         password = contraseña;
         try {

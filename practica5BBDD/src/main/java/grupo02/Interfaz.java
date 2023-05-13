@@ -29,10 +29,11 @@ public class Interfaz extends javax.swing.JFrame {
         
     }
     
+    /** METODO ANTIGUO
     private void imprimirTabulado(){
         CargarDatos miConexion = new CargarDatos();
         long tiempo_1 = miConexion.medirTiempoCarga(usuario, contraseña);
-        String textoS2 = String.valueOf(tiempo_1);
+        String textoS2 = String.valueOf(tiempo_1) + " Nanosegundos";
         tiempoTabTextField.setText(textoS2);
     }
     private void contadorTab(){
@@ -40,7 +41,37 @@ public class Interfaz extends javax.swing.JFrame {
         int cuentasTab = numeros.contador(usuario, contraseña);
         contadorTabTextField1.setText(Integer.toString(cuentasTab));
     }
-  
+    **/
+    
+    /*
+     * Este método imprime el tiempo y el contador del texto
+    */
+    private void ficheroTab(){
+         CargarDatos miConexion = new CargarDatos();
+         //------------tiempo-------------
+        long tiempo_1 = miConexion.subirConsultas(usuario, contraseña);
+        String textoS2 = String.valueOf(tiempo_1) + " Nanosegundos";
+        tiempoTabTextField.setText(textoS2);
+        //--------contador--------------
+        String textoContador1 = String.valueOf(miConexion.contador) + " Inserciones";
+        contadorTabTextField1.setText(textoContador1);  
+
+    }
+    
+     /*
+     * Este método imprime el tiempo y el contador del texto
+    */
+    private void ficheroOpt(){
+         CargarDatosOpt miConexionOpt = new CargarDatosOpt();
+         //------------tiempo-------------
+        long tiempo_1 = miConexionOpt.subirConsultas(usuario, contraseña);
+        String textoS2Opt = String.valueOf(tiempo_1) + " Nanosegundos";
+        tiempoOptimizadoTextField.setText(textoS2Opt);
+        //--------contador--------------
+        String textoContador2 = String.valueOf(miConexionOpt.contadorOpt) + " Inserciones";
+        contadorOptimizadoTextField1.setText(textoContador2);  
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -296,8 +327,9 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_ContrasennaLavelActionPerformed
 
     private void tabButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tabButtonActionPerformed
-    imprimirTabulado();
-    contadorTab();
+    //imprimirTabulado();
+    //contadorTab();
+    ficheroTab();
     gestor.cerrarConexion();
         
     }//GEN-LAST:event_tabButtonActionPerformed
@@ -317,7 +349,8 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void OptimizadoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OptimizadoButtonActionPerformed
-        contadorTab();
+        ficheroOpt();
+        gestor.cerrarConexion();
     }//GEN-LAST:event_OptimizadoButtonActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
