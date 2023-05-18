@@ -44,12 +44,12 @@ public class CargarDatos {
             String linea;
             String[] datos;
              
-            File archivo = new File(archivoPrueba);
-            
+           // File archivo = new File(archivoPrueba);
+            File archivo = new File(archivo1);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(archivo));
             
             while ((linea = bufferedReader.readLine()) != null) {
-                System.out.println("cargando inserts" + n);
+                System.out.println("cargando inserts");
                 datos = linea.split("\t");
             
                  if (datos.length >= 6) {
@@ -87,51 +87,13 @@ public class CargarDatos {
     ** CargarConsulta(consulta), devuelve n si se ha ejecutado correctamente
      */
     
-    /*
-    public void cargarConsulta(String consulta, String usuario, String contraseña) {
-        try {
-            conexion = DriverManager.getConnection(url, usuario, contraseña);
-            statement = conexion.createStatement();
-            System.out.println("1");
-            int resultado = 0;
-            try {
-                resultado = statement.executeUpdate(consulta);
-            } catch (SQLException e) {
-                System.err.println("Error en una sentencia: " + e.getMessage());
-            }
-
-            if (resultado > 0) {
-                contador=contador+1;
-                System.out.println("Inserciones realizadas: " + contador + "\n");
-            } else {
-                System.out.println("Error al cargar una consulta de inserción \n");
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
-        }
-        
-                
-    }
-    //Problemática: Como imprimir a tiempo real el contador
-
-    public long medirTiempoCarga(String usuario, String contraseña) {
-        obtenerInsert();
-        tiempoInicio = System.nanoTime();
-        consultas.forEach(consulta -> cargarConsulta(consulta, usuario, contraseña)); //ejec cada consulta y devuelve
-        //consultas.forEach(consulta -> System.out.println(consulta));
-        tiempoFin = System.nanoTime();
-        tiempo = tiempoFin - tiempoInicio;
-        
-
-        return tiempo;
-    }
-*/
+   
     
-    public long subirConsultas(String usuario, String contraseña) {
+    public long subirConsultas(String usuario, String contraseña){
         obtenerInsert(); //se obtiene array
         int t = 0;
         try {
+            
             conexion = DriverManager.getConnection(url, usuario, contraseña);
             statement = conexion.createStatement();
             System.out.println("1");
@@ -148,6 +110,7 @@ public class CargarDatos {
                 "  popularity INT\n" +
                 ")" ;
             statement.execute(crearTabla);
+            
             while(t < consultas.size()){
                 try {
                 resultado = statement.executeUpdate(consultas.get(t)); 
@@ -162,6 +125,7 @@ public class CargarDatos {
                 } catch (SQLException e) {
                     System.err.println("Error en una sentencia: " + e.getMessage());
                 }
+                
             tiempoFin = System.nanoTime();
             tiempo = tiempoFin - tiempoInicio;
             }
@@ -177,10 +141,67 @@ public class CargarDatos {
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
         System.out.println(contador);
-        return  tiempo;
+        try {
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(CargarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return  tiempo/1000000000; 
+    }
+    
+    
+    
+    public long subirConsultasOptimizado(String usuario, String contraseña){
+        obtenerInsert(); //se obtiene array
+        //statement.executeUpdate("SET FOREIGN_KEY_CHECKS=0");
+        int t = 0;
+        int batchSize = 10000; //consultas por ronda
+        int count = 0;
+        try {
+            conexion = DriverManager.getConnection(url, usuario, contraseña);
+            conexion.setAutoCommit(false);
+            statement = conexion.createStatement();
+            System.out.println("1");
+            int resultado = 0;
+            int i = 0;
+            tiempoInicio = System.nanoTime();
+            statement.execute("CREATE DATABASE IF NOT EXISTS pr5;\n");
+            statement.execute("DROP TABLE IF EXISTS pr5.albums;");
+            String crearTabla = "CREATE TABLE albums (\n" +
+                "  id VARCHAR(50),\n" +
+                "  name VARCHAR(255),\n" +
+                "  album_group VARCHAR(255),\n"
+                    + "  album_type VARCHAR(50),\n"
+                    + "  release_date BIGINT,\n"
+                    + "  popularity INT\n"
+                    + ")";
+            statement.execute(crearTabla);
+
+            for (String consulta : consultas) {
+                statement.addBatch(consulta);
+                count++;
+                if (count % batchSize == 0) {
+                    statement.executeBatch();
+                    System.out.println(i + "0 Mil inserciones realizadas");
+                    i=i+1;
+                }
+            }
+            if (consultas.size() % batchSize != 0) {
+                statement.executeBatch();
+            }
+            tiempoFin = System.nanoTime();
+            tiempo = tiempoFin - tiempoInicio;
+            contador=consultas.size();
+            conexion.commit();
+        } catch (SQLException e) {
+            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
+        }
+        System.out.println(contador);
+        //conexion.close();
+        return  tiempo/1000000000;
         
                 
     }
-
+    
     
 }

@@ -50,7 +50,7 @@ public class Interfaz extends javax.swing.JFrame {
          CargarDatos miConexion = new CargarDatos();
          //------------tiempo-------------
         long tiempo_1 = miConexion.subirConsultas(usuario, contraseña);
-        String textoS2 = String.valueOf(tiempo_1) + " Nanosegundos";
+        String textoS2 = String.valueOf(tiempo_1) + " segundos";
         tiempoTabTextField.setText(textoS2);
         //--------contador--------------
         String textoContador1 = String.valueOf(miConexion.contador) + " Inserciones";
@@ -62,13 +62,13 @@ public class Interfaz extends javax.swing.JFrame {
      * Este método imprime el tiempo y el contador del texto
     */
     private void ficheroOpt(){
-         CargarDatosOpt miConexionOpt = new CargarDatosOpt();
+         CargarDatos miConexionOpt = new CargarDatos();
          //------------tiempo-------------
-        long tiempo_1 = miConexionOpt.subirConsultas(usuario, contraseña);
-        String textoS2Opt = String.valueOf(tiempo_1) + " Nanosegundos";
+        long tiempo_1 = miConexionOpt.subirConsultasOptimizado(usuario, contraseña);
+        String textoS2Opt = String.valueOf(tiempo_1) + " segundos";
         tiempoOptimizadoTextField.setText(textoS2Opt);
         //--------contador--------------
-        String textoContador2 = String.valueOf(miConexionOpt.contadorOpt) + " Inserciones";
+        String textoContador2 = String.valueOf(miConexionOpt.contador) + " Inserciones";
         contadorOptimizadoTextField1.setText(textoContador2);  
 
     }
