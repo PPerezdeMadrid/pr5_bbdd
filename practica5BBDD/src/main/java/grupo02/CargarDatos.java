@@ -154,17 +154,15 @@ public class CargarDatos {
     
     public long subirConsultasOptimizado(String usuario, String contraseña){
         obtenerInsert(); //se obtiene array
-        //statement.executeUpdate("SET FOREIGN_KEY_CHECKS=0");
         int t = 0;
         int batchSize = 10000; //consultas por ronda
         int count = 0;
-        int nConsultas=0;
+        int nConsultas=1;
         int realizadas = 0;
         try {
             conexion = DriverManager.getConnection(url, usuario, contraseña);
             conexion.setAutoCommit(false);
             statement = conexion.createStatement();
-            System.out.println("1");
             int resultado = 0;
             int i = 0;
             tiempoInicio = System.nanoTime();
@@ -194,9 +192,8 @@ public class CargarDatos {
                 }
             }
             if (consultas.size() % batchSize != 0) {
-                                                                 System.out.println("7");
+                System.out.println("7");
                 int result[] = statement.executeBatch();
-                                                              System.out.println("8");
                 for (int res : result) {
                         if (res > 0) {
                             nConsultas++;
