@@ -16,8 +16,8 @@ public class Interfaz extends javax.swing.JFrame {
      * Creates new form Interfaz
      */
     
-    String usuario ="root";
-    String contraseña= "root";
+    String usuario ="";
+    String contraseña= "";
     boolean logIn;
     GestorBD gestor = new GestorBD();
     

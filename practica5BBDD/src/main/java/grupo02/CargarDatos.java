@@ -37,7 +37,6 @@ public class CargarDatos {
     String archivoPrueba = "archivo_prueba.txt";
     /*
     *Este método obtiene del archivo tabulado un arraylist de "INSERT..."
-    *@pppere
      */
     public int obtenerInsert() {
         try {
@@ -47,7 +46,7 @@ public class CargarDatos {
             String[] datos;
              
             //File archivo = new File(archivoPrueba);
-            File archivo = new File(archivoPrueba);
+            File archivo = new File(archivo1);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(archivo));
             
             while ((linea = bufferedReader.readLine()) != null) {
@@ -180,17 +179,12 @@ public class CargarDatos {
                     + "  popularity INT\n"
                     + ")";
             statement.execute(crearTabla);
-
-            System.out.println("2");
             for (String consulta : consultas) {
-                                                    System.out.println("3");
                 statement.addBatch(consulta);
-                count++;
-                                                    System.out.println("4");
+                count = count + 1;
                 if (count % batchSize == 0) {
-                                                    System.out.println("5");
                     int result[] = statement.executeBatch();
-                                                    System.out.println("6");
+                    i++;
                     System.out.println(i + "0 Mil inserciones realizadas");
                     for (int res : result) {
                         if (res > 0) {
