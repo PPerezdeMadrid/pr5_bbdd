@@ -23,15 +23,3 @@ public class Cronometro {
     }
 }
 
-/*
-* accion = 1;
-* Cronometro crono = new Cronometro();
-* while(accion=1){
-*   crono.cronometro()
-*    try {
-        Thread.sleep(1000); // Esperar un segundo
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    } 
-* 
-*/

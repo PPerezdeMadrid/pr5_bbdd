@@ -7,7 +7,9 @@ import java.sql.*;
 
 /**
  *
- * @author ppere
+ * @author Tomas Machin
+ * @author Juan Federico García
+ * @author Paloma Perez
  */
 
 public class GestorBD {
