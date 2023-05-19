@@ -32,8 +32,8 @@ public class CargarDatos {
     int count = 0;
     ArrayList<String> consultas = new ArrayList<>(); 
 
-    //String archivoT = "albums_tabulado.txt";
-    String archivoT = "archivo_prueba.txt";
+    String archivoT = "albums_tabulado700.txt";
+   
     /*
     *Este método obtiene del archivo tabulado un arraylist de "INSERT..."
     *@pppere

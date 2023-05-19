@@ -25,58 +25,14 @@ public class CargarDatosOpt {
     long tiempoInicio;
     Statement statement;
     Connection conexion;
-    String respuesta;
     int contadorOpt = 0;
     ArrayList<String> consultasOpt = new ArrayList<>(); 
+    
+    CargarDatos cargaArray = new CargarDatos();
 
-    String archivo1 = "archivo_prueba.txt";
-    /*
-    *Este método obtiene del archivo tabulado un arraylist de "INSERT..."
-    *@pppere
-     */
-    public void obtenerInsert() {
-        try {
-            
-            int n=0;
-            String linea;
-            String[] datos;
-             
-            File archivo = new File(archivo1);
-            
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(archivo));
-            
-            while ((linea = bufferedReader.readLine()) != null) {
-                System.out.println("cargando inserts" + n);
-                datos = linea.split("\t");
-            
-                 if (datos.length >= 6) {
-                String name = datos[0].replaceAll("\"", "'").replaceAll("'", "`");
-                String name_1 = datos[1].replaceAll("\"", "'").replaceAll("'", "`");
-                String name_2 = datos[2].replaceAll("\"", "'").replaceAll("'", "`");
-                String name_3 = datos[3].replaceAll("\"", "'").replaceAll("'", "`");
-                String name_4 = datos[4].replaceAll("\"", "'").replaceAll("'", "`");
-                String name_5 = datos[5].replaceAll("\"", "'").replaceAll("'", "`");
-                
-                String consulta = "INSERT INTO ALBUMS (name, id, album_group, album_type, release_date, popularity) VALUES ('" + name + "', '" + name_1 + "', '" + name_2 + "', '" + name_3 + "'," + name_4 + "," + name_5 + ");\n";
-                
-                consultasOpt.add(consulta);
-                n++; //n --> NUMERO DE CONSULTAS AÑADIDAS EN EL ARRAY
-                System.out.println(n);
-                    
-            }
-        }
-            
-           bufferedReader.close();
-           
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encontró el archivo");
-        } catch (IOException ex) {
-            Logger.getLogger(CargarDatosOpt.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public long subirConsultas(String usuario, String contraseña) {
-        obtenerInsert(); //se obtiene array
+        cargaArray.obtenerInsert(); //se obtiene array
         int t = 0;
         try {
             conexion = DriverManager.getConnection(url, usuario, contraseña);
