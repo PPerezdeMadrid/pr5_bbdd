@@ -38,7 +38,7 @@ public class CargarDatos {
     *Este método obtiene del archivo tabulado un arraylist de "INSERT..."
     *@pppere
      */
-    public int obtenerInsert() {
+    public void obtenerInsert() {
         try {
             int n=0;
             String linea;
@@ -77,7 +77,7 @@ public class CargarDatos {
         } catch (IOException ex) {
             Logger.getLogger(CargarDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
+        
     }
 
     /*
@@ -95,7 +95,6 @@ public class CargarDatos {
             
             conexion = DriverManager.getConnection(url, usuario, contraseña);
             statement = conexion.createStatement();
-            System.out.println("1");
             int resultado = 0;
             long tiempoInicio = System.nanoTime();
             statement.execute("CREATE DATABASE IF NOT EXISTS pr5;\n");

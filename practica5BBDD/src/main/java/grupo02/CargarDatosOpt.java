@@ -29,12 +29,12 @@ public class CargarDatosOpt {
     int contadorOpt = 0;
     ArrayList<String> consultasOpt = new ArrayList<>(); 
 
-    String archivo1 = "albums_tabulado700.txt";
+    String archivo1 = "archivo_prueba.txt";
     /*
     *Este método obtiene del archivo tabulado un arraylist de "INSERT..."
     *@pppere
      */
-    public int obtenerInsert() {
+    public void obtenerInsert() {
         try {
             
             int n=0;
@@ -73,7 +73,6 @@ public class CargarDatosOpt {
         } catch (IOException ex) {
             Logger.getLogger(CargarDatosOpt.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
     }
 
     public long subirConsultas(String usuario, String contraseña) {
@@ -81,8 +80,8 @@ public class CargarDatosOpt {
         int t = 0;
         try {
             conexion = DriverManager.getConnection(url, usuario, contraseña);
+            conexion.setAutoCommit(false);
             statement = conexion.createStatement();
-            System.out.println("1");
             int resultado = 0;
             tiempoInicio = System.nanoTime();
             statement.execute("CREATE DATABASE IF NOT EXISTS pr5;\n");
@@ -96,26 +95,18 @@ public class CargarDatosOpt {
                 "  popularity INT\n" +
                 ")" ;
             statement.execute(crearTabla);
-            
-            //Iniciar transaccion
-           //conexion.SetAutoCommit(false);
             while(t < consultasOpt.size()){
-                try {
                 resultado = statement.executeUpdate(consultasOpt.get(t)); 
                     if (resultado > 0) {
                         contadorOpt=contadorOpt+1;
                         System.out.println("Inserciones realizadas: " + contadorOpt + "\n");
-                     } else {
-                        System.out.println("Error al cargar una consulta de inserción \n");
-                     }
+                    }
                 t++;
-                
-                } catch (SQLException e) {
-                    System.err.println("Error en una sentencia: " + e.getMessage());
-                }
+            }
+            conexion.commit();
             tiempoFin = System.nanoTime();
             tiempo = tiempoFin - tiempoInicio;
-            }
+            
 
             if (resultado > 0) {
                 contadorOpt=contadorOpt+1;
@@ -128,9 +119,8 @@ public class CargarDatosOpt {
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
         
-        //conexion.commit()
         System.out.println(contadorOpt);
-        return  tiempo;
+        return  tiempo/1000000000;
         
                 
     }

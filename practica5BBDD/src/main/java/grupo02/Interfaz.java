@@ -47,7 +47,20 @@ public class Interfaz extends javax.swing.JFrame {
         //--------contador--------------
         String textoContador2 = String.valueOf(miConexion.count) + " Inserciones";
         contadorOptimizadoTextField1.setText(textoContador2);  
-
+    }
+    
+    /**
+     * Este método ejecuta la optimización con la clase CargarDatosOpt.java
+     */
+    private void ficheroOpt2(){
+        CargarDatosOpt miConexionOpt = new CargarDatosOpt();
+         //------------tiempo-------------
+        long tiempo_1 = miConexionOpt.subirConsultas(usuario, contrasena);
+        String textoS2Opt = String.valueOf(tiempo_1) + " Segundos";
+        tiempoOptimizadoTextField.setText(textoS2Opt);
+        //--------contador--------------
+        String textoContador2 = String.valueOf(miConexionOpt.contadorOpt) + " Inserciones";
+        contadorOptimizadoTextField1.setText(textoContador2);  
     }
 
     /**
@@ -312,7 +325,8 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void OptimizadoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OptimizadoButtonActionPerformed
-        ficheroOpt();
+        //ficheroOpt();
+        ficheroOpt2();
         gestor.cerrarConexion();
     }//GEN-LAST:event_OptimizadoButtonActionPerformed
 
