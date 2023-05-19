@@ -22,30 +22,30 @@ public class CargarDatos {
     String url = "jdbc:mysql://localhost:3306/pr5";
     //String usuario; 
     //String password; 
-    long tiempoFin;
     long tiempo = 0;
-    long tiempoInicio;
+    long tiempoO;
     Statement statement;
     Connection conexion;
     String respuesta;
     int contador = 0;
+    int count1 = 0;
+    int count = 0;
     ArrayList<String> consultas = new ArrayList<>(); 
 
-    String archivo1 = "albums_tabulado700.txt";
-    String archivoPrueba = "archivo_prueba.txt";
+    //String archivoT = "albums_tabulado.txt";
+    String archivoT = "archivo_prueba.txt";
     /*
     *Este método obtiene del archivo tabulado un arraylist de "INSERT..."
     *@pppere
      */
     public int obtenerInsert() {
         try {
-            
             int n=0;
             String linea;
             String[] datos;
              
            // File archivo = new File(archivoPrueba);
-            File archivo = new File(archivo1);
+            File archivo = new File(archivoT);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(archivo));
             
             while ((linea = bufferedReader.readLine()) != null) {
@@ -53,17 +53,18 @@ public class CargarDatos {
                 datos = linea.split("\t");
             
                  if (datos.length >= 6) {
-                String name = datos[0].replaceAll("\"", "'").replaceAll("'", "`");
-                String name_1 = datos[1].replaceAll("\"", "'").replaceAll("'", "`");
-                String name_2 = datos[2].replaceAll("\"", "'").replaceAll("'", "`");
-                String name_3 = datos[3].replaceAll("\"", "'").replaceAll("'", "`");
-                String name_4 = datos[4].replaceAll("\"", "'").replaceAll("'", "`");
-                String name_5 = datos[5].replaceAll("\"", "'").replaceAll("'", "`");
+                String name = datos[0].replaceAll("\"", "``").replaceAll("'", "`");
+                String name_1 = datos[1].replaceAll("\"", "``").replaceAll("'", "`");
+                String name_2 = datos[2].replaceAll("\"", "``").replaceAll("'", "`");
+                String name_3 = datos[3].replaceAll("\"", "``").replaceAll("'", "`");
+                String name_4 = datos[4].replaceAll("\"", "``").replaceAll("'", "`");
+                String name_5 = datos[5].replaceAll("\"", "``").replaceAll("'", "`");
                 
-                String consulta = "INSERT INTO ALBUMS (name, id, album_group, album_type, release_date, popularity) VALUES ('" + name + "', '" + name_1 + "', '" + name_2 + "', '" + name_3 + "'," + name_4 + "," + name_5 + ");\n";
+                String consulta = "INSERT INTO ALBUMS (name, id, album_group, album_type, release_date, popularity) "
+                        + "VALUES ('" + name + "', '" + name_1 + "', '" + name_2 + "', '" + name_3 + "'," + name_4 + "," + name_5 + ");\n";
                 
                 consultas.add(consulta);
-                n++; //n --> NUMERO DE CONSULTAS AÑADIDAS EN EL ARRAY
+                n++; //variable de comprobación por la terminal
                 System.out.println(n);
                     
             }
@@ -87,8 +88,6 @@ public class CargarDatos {
     ** CargarConsulta(consulta), devuelve n si se ha ejecutado correctamente
      */
     
-   
-    
     public long subirConsultas(String usuario, String contraseña){
         obtenerInsert(); //se obtiene array
         int t = 0;
@@ -98,7 +97,7 @@ public class CargarDatos {
             statement = conexion.createStatement();
             System.out.println("1");
             int resultado = 0;
-            tiempoInicio = System.nanoTime();
+            long tiempoInicio = System.nanoTime();
             statement.execute("CREATE DATABASE IF NOT EXISTS pr5;\n");
             statement.execute("DROP TABLE IF EXISTS pr5.albums;");
             String crearTabla = "CREATE TABLE albums (\n" +
@@ -126,7 +125,7 @@ public class CargarDatos {
                     System.err.println("Error en una sentencia: " + e.getMessage());
                 }
                 
-            tiempoFin = System.nanoTime();
+            long tiempoFin = System.nanoTime();
             tiempo = tiempoFin - tiempoInicio;
             }
 
@@ -152,19 +151,16 @@ public class CargarDatos {
     
     
     public long subirConsultasOptimizado(String usuario, String contraseña){
-        obtenerInsert(); //se obtiene array
-        //statement.executeUpdate("SET FOREIGN_KEY_CHECKS=0");
+        obtenerInsert(); 
         int t = 0;
         int batchSize = 10000; //consultas por ronda
-        int count = 0;
         try {
             conexion = DriverManager.getConnection(url, usuario, contraseña);
             conexion.setAutoCommit(false);
             statement = conexion.createStatement();
             System.out.println("1");
-            int resultado = 0;
             int i = 0;
-            tiempoInicio = System.nanoTime();
+            long tiempoInicio = System.nanoTime();
             statement.execute("CREATE DATABASE IF NOT EXISTS pr5;\n");
             statement.execute("DROP TABLE IF EXISTS pr5.albums;");
             String crearTabla = "CREATE TABLE albums (\n" +
@@ -179,8 +175,8 @@ public class CargarDatos {
 
             for (String consulta : consultas) {
                 statement.addBatch(consulta);
-                count++;
-                if (count % batchSize == 0) {
+                count1++;
+                if (count1 % batchSize == 0) {
                     statement.executeBatch();
                     System.out.println(i + "0 Mil inserciones realizadas");
                     i=i+1;
@@ -189,16 +185,15 @@ public class CargarDatos {
             if (consultas.size() % batchSize != 0) {
                 statement.executeBatch();
             }
-            tiempoFin = System.nanoTime();
-            tiempo = tiempoFin - tiempoInicio;
-            contador=consultas.size();
+            long tiempoFin = System.nanoTime();
+            tiempoO = tiempoFin - tiempoInicio;
+            count=consultas.size();
             conexion.commit();
         } catch (SQLException e) {
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
-        System.out.println(contador);
-        //conexion.close();
-        return  tiempo/1000000000;
+        System.out.println(count);
+        return  tiempoO/1000000000;
         
                 
     }

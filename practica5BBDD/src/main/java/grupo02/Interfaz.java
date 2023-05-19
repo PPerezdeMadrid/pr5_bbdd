@@ -5,51 +5,29 @@
 package grupo02;
 
 import java.awt.Color;
-import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 
 /**
- * Objetivos: CrearBD, Cargar tabulado, hacer LOGIN, MOSTRAR tiempo, MOSTRAR Barra Progreso
+ * Esta clase devuelve el tiempo y el num de inserciones realizadas de cada archivo
+ * Interfaz de la aplicación
  * @author ppere
  */
 public class Interfaz extends javax.swing.JFrame {
-    /**
-     * Creates new form Interfaz
-     */
-    
-    String usuario ="root";
-    String contraseña= "root";
+    String usuario, contrasena;
     boolean logIn;
     GestorBD gestor = new GestorBD();
+    CargarDatos miConexion = new CargarDatos();
     String consulta;
     
     public Interfaz() {
-        initComponents();
-        
-        
+        initComponents();  
     }
-    
-    /** METODO ANTIGUO
-    private void imprimirTabulado(){
-        CargarDatos miConexion = new CargarDatos();
-        long tiempo_1 = miConexion.medirTiempoCarga(usuario, contraseña);
-        String textoS2 = String.valueOf(tiempo_1) + " Nanosegundos";
-        tiempoTabTextField.setText(textoS2);
-    }
-    private void contadorTab(){
-        CargarDatos numeros = new CargarDatos();
-        int cuentasTab = numeros.contador(usuario, contraseña);
-        contadorTabTextField1.setText(Integer.toString(cuentasTab));
-    }
-    **/
-    
+  
     /*
      * Este método imprime el tiempo y el contador del texto
     */
     private void ficheroTab(){
-         CargarDatos miConexion = new CargarDatos();
          //------------tiempo-------------
-        long tiempo_1 = miConexion.subirConsultas(usuario, contraseña);
+        long tiempo_1 = miConexion.subirConsultas(usuario, contrasena);
         String textoS2 = String.valueOf(tiempo_1) + " segundos";
         tiempoTabTextField.setText(textoS2);
         //--------contador--------------
@@ -62,13 +40,12 @@ public class Interfaz extends javax.swing.JFrame {
      * Este método imprime el tiempo y el contador del texto
     */
     private void ficheroOpt(){
-         CargarDatos miConexionOpt = new CargarDatos();
          //------------tiempo-------------
-        long tiempo_1 = miConexionOpt.subirConsultasOptimizado(usuario, contraseña);
+        long tiempo_1 = miConexion.subirConsultasOptimizado(usuario, contrasena);
         String textoS2Opt = String.valueOf(tiempo_1) + " segundos";
         tiempoOptimizadoTextField.setText(textoS2Opt);
         //--------contador--------------
-        String textoContador2 = String.valueOf(miConexionOpt.contador) + " Inserciones";
+        String textoContador2 = String.valueOf(miConexion.count) + " Inserciones";
         contadorOptimizadoTextField1.setText(textoContador2);  
 
     }
@@ -90,7 +67,6 @@ public class Interfaz extends javax.swing.JFrame {
         UsuarioLabel = new java.awt.TextField();
         ContrasennaLavel = new java.awt.TextField();
         jPanel1 = new javax.swing.JPanel();
-        ProgressBarTab = new javax.swing.JProgressBar();
         tabButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tiempoTabTextField = new javax.swing.JTextArea();
@@ -98,7 +74,6 @@ public class Interfaz extends javax.swing.JFrame {
         contadorTabTextField1 = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         OptimizadoButton = new javax.swing.JButton();
-        ProgressBarTab2 = new javax.swing.JProgressBar();
         jScrollPane3 = new javax.swing.JScrollPane();
         tiempoOptimizadoTextField = new javax.swing.JTextArea();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -160,27 +135,22 @@ public class Interfaz extends javax.swing.JFrame {
                         .addGap(45, 45, 45)
                         .addComponent(tabButton, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(ProgressBarTab, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tabButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ProgressBarTab, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -213,28 +183,22 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(OptimizadoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(61, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(6, 33, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ProgressBarTab2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(21, 21, 21))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(OptimizadoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ProgressBarTab2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         loginButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -318,17 +282,16 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void UsuarioLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioLabelActionPerformed
-        // TODO add your handling code here:
+
         UsuarioLabel.setText("");
     }//GEN-LAST:event_UsuarioLabelActionPerformed
 
     private void ContrasennaLavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContrasennaLavelActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_ContrasennaLavelActionPerformed
 
     private void tabButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tabButtonActionPerformed
-    //imprimirTabulado();
-    //contadorTab();
+    
     ficheroTab();
     gestor.cerrarConexion();
         
@@ -336,9 +299,9 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
       usuario=UsuarioLabel.getText();
-      contraseña=passwordField.getText();
+      contrasena=passwordField.getText();
       passwordField.setText("");
-      if(gestor.logIn(usuario, contraseña)== true){
+      if(gestor.logIn(usuario, contrasena)== true){
           logIn=true;
           jPanel3.setBackground(Color.green);
       }else{
@@ -354,18 +317,10 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_OptimizadoButtonActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_passwordFieldActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -383,7 +338,6 @@ public class Interfaz extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -395,8 +349,6 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.TextField ContrasennaLavel;
     private javax.swing.JButton OptimizadoButton;
-    private javax.swing.JProgressBar ProgressBarTab;
-    private javax.swing.JProgressBar ProgressBarTab2;
     private java.awt.TextField UsuarioLabel;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
